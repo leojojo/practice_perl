@@ -11,30 +11,32 @@ main();
 sub main {
   print "FizzBuzzの最大値: ";
   my $input = <STDIN>;
+  my %pairs = (
+    3 => "Foo",
+    4 => "Bar",
+    5 => "Hoge"
+  );
 
-  # fizzbuzz($input);
+  fizzbuzz({max=>$input, pairs=>\%pairs});
 
-  my $iterator = iter_fizzbuzz($input);
-  while (my $val = $iterator->()) {
-    say $val;
-  }
+  # my $iterator = iter_fizzbuzz($input);
+  # while (my $val = $iterator->()) {
+  #   say $val;
+  # }
 }
 
 sub fizzbuzz {
-  my ($max) = @_;
+  my ($args) = @_;
+  my $max = $args->{max};
+  my %pairs = %{$args->{pairs}};
 
-  for (1..$max) {
-    if ($_ % 3 == 0) {
-      print "Fizz";
-      if ($_ % 5 == 0) {
-        print "Buzz";
-      }
-      print "\n";
-    } elsif ($_ % 5 == 0) {
-      say "Buzz";
-    } else {
-      say $_;
+  for my $i (1..$max) {
+    my $value = "";
+    for my $modulus (keys %pairs) {
+      $value = $value . $pairs{$modulus} if ($i % int($modulus) == 0);
     }
+    $value = $value ? $value : $i;
+    say $value;
   }
 }
 
