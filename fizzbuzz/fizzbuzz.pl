@@ -1,16 +1,18 @@
 use warnings;
 use strict;
 use feature qw(say);
-use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
+use FindBin;
 use lib "$FindBin::Bin/../lib";
 use CSV;
+use lib "$FindBin::Bin";
+use fizzbuzz;
 
 
 
-main();
+main() unless caller;
 
 sub main {
   my $help = 0;
@@ -34,22 +36,8 @@ sub main {
     );
   }
 
-  fizzbuzz({max=>$max, pairs=>\%pairs});
-}
-
-sub fizzbuzz {
-  my ($args) = @_;
-  my $max = $args->{max};
-  my %pairs = %{$args->{pairs}};
-
-  for my $i (1..$max) {
-    my $value = "";
-    for my $modulus (keys %pairs) {
-      $value = $value . $pairs{$modulus} if ($i % int($modulus) == 0);
-    }
-    $value = $value ? $value : $i;
-    say $value;
-  }
+  my @result = fizzbuzz::fizzbuzz({max=>$max, pairs=>\%pairs});
+  say $_ for @result;
 }
 
 

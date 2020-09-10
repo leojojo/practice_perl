@@ -1,5 +1,5 @@
 # practice_perl
 
 ```sh
-$ perl fizzbuzz.pl -i test.csv -n 100
+$ perl fizzbuzz.pl -i sample_input.csv -n 100
 ```
