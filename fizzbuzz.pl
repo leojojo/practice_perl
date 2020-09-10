@@ -3,6 +3,7 @@ use strict;
 use feature qw(say);
 
 sub Iterator (&) { return $_[0] }
+sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s }
 
 
 
@@ -11,11 +12,10 @@ main();
 sub main {
   print "FizzBuzzの最大値: ";
   my $input = <STDIN>;
-  my %pairs = (
-    3 => "Foo",
-    4 => "Bar",
-    5 => "Hoge"
-  );
+
+  my @csv = parse_csv("test.csv");
+  my %pairs;
+  $pairs{$_->[0]} = $_->[1] for @csv;
 
   fizzbuzz({max=>$input, pairs=>\%pairs});
 
@@ -23,6 +23,21 @@ sub main {
   # while (my $val = $iterator->()) {
   #   say $val;
   # }
+}
+
+sub parse_csv {
+  my ($filename) = @_;
+
+  my @parsed;
+  open(FH, "<", $filename) or die("error :$!");
+  while (<FH>) {
+    chomp($_);
+    my @line = split(/,/, $_, -1);          # 末尾の空白が削られる仕様を防ぐ-1
+    $_ = trim($_) for @line;
+    push(@parsed, \@line);
+  }
+  close(FH);
+  return @parsed;
 }
 
 sub fizzbuzz {
