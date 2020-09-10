@@ -2,8 +2,11 @@ use warnings;
 use strict;
 use feature qw(say);
 
+# use lib "/home/leojojo/sb/practice_perl/lib";         # abs path works too
+use lib "./lib";
+use CSV;
+
 sub Iterator (&) { return $_[0] }
-sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s }
 
 
 
@@ -13,7 +16,7 @@ sub main {
   print "FizzBuzzの最大値: ";
   my $input = <STDIN>;
 
-  my @csv = parse_csv("test.csv");
+  my @csv = CSV::parse("test.csv");
   my %pairs;
   $pairs{$_->[0]} = $_->[1] for @csv;
 
@@ -23,21 +26,6 @@ sub main {
   # while (my $val = $iterator->()) {
   #   say $val;
   # }
-}
-
-sub parse_csv {
-  my ($filename) = @_;
-
-  my @parsed;
-  open(FH, "<", $filename) or die("error :$!");
-  while (<FH>) {
-    chomp($_);
-    my @line = split(/,/, $_, -1);          # 末尾の空白が削られる仕様を防ぐ-1
-    $_ = trim($_) for @line;
-    push(@parsed, \@line);
-  }
-  close(FH);
-  return @parsed;
 }
 
 sub fizzbuzz {
