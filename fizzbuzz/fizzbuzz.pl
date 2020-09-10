@@ -1,11 +1,11 @@
 use warnings;
 use strict;
 use feature qw(say);
+use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
-# use lib "/home/leojojo/sb/practice_perl/lib";         # abs path works too
-use lib "./lib";
+use lib "$FindBin::Bin/../lib";
 use CSV;
 
 
