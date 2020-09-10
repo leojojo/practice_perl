@@ -6,8 +6,6 @@ use feature qw(say);
 use lib "./lib";
 use CSV;
 
-sub Iterator (&) { return $_[0] }
-
 
 
 main();
@@ -21,11 +19,6 @@ sub main {
   $pairs{$_->[0]} = $_->[1] for @csv;
 
   fizzbuzz({max=>$input, pairs=>\%pairs});
-
-  # my $iterator = iter_fizzbuzz($input);
-  # while (my $val = $iterator->()) {
-  #   say $val;
-  # }
 }
 
 sub fizzbuzz {
@@ -40,16 +33,5 @@ sub fizzbuzz {
     }
     $value = $value ? $value : $i;
     say $value;
-  }
-}
-
-sub iter_fizzbuzz {
-  my ($max) = @_;
-  my $current;
-
-  return Iterator {
-    $current++;
-    return undef if $current > $max;
-    return $current % 15 == 0 ? "FizzBuzz" : $current % 3 == 0 ? "Fizz" : $current % 5 == 0 ? "Buzz" : $current;
   }
 }
