@@ -16,7 +16,7 @@ sub fizzbuzz {
   my @result;
   for my $i (1..$max) {
     my $value = "";
-    for my $modulus (keys %pairs) {
+    for my $modulus (sort keys %pairs) {
       $value = $value . $pairs{$modulus} if ($i % int($modulus) == 0);
     }
     $value = $value ? $value : $i;
