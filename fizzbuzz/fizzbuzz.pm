@@ -1,7 +1,10 @@
 package fizzbuzz;
 
-use warnings;
 use strict;
+use warnings;
+use Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(fizzbuzz);
 
 
 
