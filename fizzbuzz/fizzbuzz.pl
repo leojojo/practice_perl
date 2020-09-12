@@ -5,19 +5,15 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FindBin;
-use lib "$FindBin::Bin/../lib";
+use lib "$FindBin::Bin/lib";
 use CSV;
-use lib "$FindBin::Bin";
 use fizzbuzz;
 
 
 
-main() unless caller;
-
 sub main {
   my $help = 0;
   my $max = 20;
-  my %pairs;
   my $input_file;
   GetOptions(
     "help|h"     => \$help,
@@ -26,19 +22,13 @@ sub main {
   ) or pod2usage(2);
   pod2usage(1) if $help;
 
-  if ($input_file) {
-    my @csv = CSV::parse($input_file);
-    $pairs{$_->[0]} = $_->[1] for @csv;
-  } else {
-    %pairs = (
-      3 => "Fizz",
-      5 => "Buzz"
-    );
-  }
+  my %pairs = fizzbuzz::register_pairs($input_file);
 
   my @result = fizzbuzz::fizzbuzz({max=>$max, pairs=>\%pairs});
   say $_ for @result;
 }
+
+main() unless caller;
 
 
 

@@ -2,9 +2,14 @@ package fizzbuzz;
 
 use strict;
 use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CSV;
+
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(fizzbuzz);
+our @EXPORT_OK = qw(fizzbuzz register_pairs);
 
 
 
@@ -23,6 +28,22 @@ sub fizzbuzz {
     push(@result, $value);
   }
   return @result;
+}
+
+sub register_pairs {
+  my $input_file = shift;
+
+  my %pairs;
+  if ($input_file) {
+    my @csv = CSV::parse($input_file);
+    $pairs{$_->[0]} = $_->[1] for @csv;
+  } else {
+    %pairs = (
+      3 => "Fizz",
+      5 => "Buzz"
+    );
+  }
+  return %pairs;
 }
 
 1;
