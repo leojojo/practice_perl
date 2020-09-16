@@ -3,7 +3,7 @@ use Data::Dumper;
 
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use fizzbuzz qw(fizzbuzz);
+use fizzbuzz qw(fizzbuzz register_pairs);
 
 
 
@@ -29,5 +29,17 @@ my $fizzbuzz_exp = "FizzBuzz";
 is $fizzbuzz[14], $fizzbuzz_exp, "複数の数字で割り切れる場合，入力文字列が結合されること";
 
 
+
+my %pair = register_pairs("t/sample_input.csv");
+my %pair_exp = (
+  3 => "Foo",
+  4 => "Bar",
+  5 => "Hoge",
+);
+is %pair, %pair_exp, "入力CSVからハッシュが出力されること";
+
+ok dies {register_pairs("t/illegal_length.csv")}, "不正なカラム数のCSVを入力すると停止すること";
+
+ok dies {register_pairs("t/illegal_char.csv")}, "不正な形式のCSVを入力すると停止すること";
 
 done_testing;

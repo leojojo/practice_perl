@@ -6,6 +6,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use CSV;
+use Carp "croak";
 
 use Exporter;
 our @ISA = qw(Exporter);
@@ -36,7 +37,12 @@ sub register_pairs {
   my %pairs;
   if ($input_file) {
     my @csv = CSV::parse($input_file);
-    $pairs{$_->[0]} = $_->[1] for @csv;
+    for (@csv) {
+      croak "Invalid CSV format: 2 columns required" if (scalar @{$_} > 2);
+      croak "Invalid CSV format: Integer required for first column" if (!($_->[0] =~ /^\d+$/));
+
+      $pairs{$_->[0]} = $_->[1];
+    }
   } else {
     %pairs = (
       3 => "Fizz",
